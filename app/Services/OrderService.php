@@ -11,9 +11,10 @@ class OrderService
 {
     public function makeOrder(array $attributes)
     {
+        $authed_user = auth()->user();
         $new_order = Order::create([
-            'user_id' => auth()->user() ? auth()->id() : null,
-            'currency_type' => session()->get('currency_type'),
+            'user_id' => $authed_user ? $authed_user->id : null,
+            'currency_type' => session('currency_type'),
             'delivery_needed' => $attributes['delivery_needed'],
         ]);
 
@@ -29,6 +30,17 @@ class OrderService
                 'name' => $attributes['name'],
                 'phone' => $attributes['phone'],
             ]);
+        }
+
+        if ($attributes['remember_delivery'] and $authed_user) {
+            $authed_user->fill([
+                'address' => $attributes['address'],
+                'name' => $attributes['name'],
+                'phone' => $attributes['phone'],
+                'currency_type' => $new_order->currency_type
+            ]);
+
+            $authed_user->save();
         }
 
         $new_order->save();
