@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderStoreRequest;
+use App\Models\Pizza;
 use App\Services\OrderService;
 
 class OrderController extends Controller
@@ -12,5 +13,12 @@ class OrderController extends Controller
         $new_order = (new OrderService())->makeOrder($request->all());
 
         return response(['status' => 'success']);
+    }
+
+    public function menu()
+    {
+        $pizzas = Pizza::all();
+
+        return view('menu', ['pizzas' => $pizzas]);
     }
 }
