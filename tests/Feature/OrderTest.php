@@ -59,8 +59,7 @@ class OrderTest extends TestCase
         $created_order = Order::orderByDesc('id')->first();
         $total_cost = $pizzas[0]->cost * 2 + $pizzas[1]->cost;
 
-        $response->assertOk();
-        $this->assertEquals('success', $response->json('status'));
+        $response->assertRedirect(route('menu'));
         $this->assertEquals(2, $created_order->pizzas()->count());
         $this->assertEquals($total_cost, $created_order->cost);
     }
@@ -98,7 +97,7 @@ class OrderTest extends TestCase
 
         $created_order = Order::orderByDesc('id')->first();
 
-        $response->assertOk();
+        $response->assertRedirect(route('menu'));
         $this->assertEquals(2, $created_order->pizzas()->count());
         $this->assertEquals($created_order->address, $jhon->address);
         $this->assertEquals(session('currency_type'), $jhon->currency_type);

@@ -19,7 +19,7 @@ class PizzaSeeder extends Seeder
             Pizza::create([
                 'name' => ($i < 8 ? Carbon::now()->addDays($i)->englishDayOfWeek : 'Special') . ' pizza',
                 'description' => $faker->realText(100),
-                'cost' => $faker->numberBetween(20, 50),
+                'cost' => $faker->numberBetween(3, 12),
                 'picture' => $i,
             ]);
         }
