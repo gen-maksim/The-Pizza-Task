@@ -20,6 +20,7 @@
         </style>
     </head>
     <body>
+    <section id="main">
     <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #f4faf7">
         <div class="navbar-brand">
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -28,19 +29,20 @@
             </a>
         </div>
 
-        <div id="navbarBasicExample" class="navbar-menu">
+        <div id="navbarBasicExample" class="navbar-menu is-active">
             <div class="navbar-start">
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <a class="button is-primary">
-                        <strong>Sign up</strong>
-                    </a>
+                    <p v-text="'You ordered ' + order_count + ' pizzas. Total price: ' + total_cost"></p>
+                </div>
+                <div class="navbar-item">
                     <a class="button is-light">
                         Log in
                     </a>
                     <a class="button is-light">
                         Cart
+                        <i class="fas fa-shopping-cart"></i>
                     </a>
                 </div>
             </div>
@@ -50,29 +52,28 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title" style="color: #e3f1fa">
-                    Hello World
+                    Pizza World
                 </h1>
                 <p class="subtitle" style="color: #e3f1fa">
-                    My first website with <strong>Bulma</strong>!
+                    Pizza for every day. <strong>Try special today!</strong>
                 </p>
             </div>
         </div>
-        <div id="tiles" class="container is-fluid pb-3">
+        <div class="container is-fluid pb-3">
             <div class="columns is-multiline">
                 <div v-for="pizza in pizzas" class="column is-one-quarter">
                     <div class="card" style="background-color: #f2f2f2">
-                        <div class="card-content">
-                            <p class="title" v-text="pizza.name"></p>
-                        </div>
+                        <header class="card-header">
+                            <p class="card-header-title is-centered is-1" v-text="pizza.name"></p>
+                        </header>
                         <div class="card-image">
                             <figure class="image is-4by3">
                                 <img v-bind:src="pizza.pic_url" alt="Placeholder image">
                             </figure>
                         </div>
                         <footer class="card-footer">
-                            <a href="#" class="card-footer-item">Save</a>
-                            <a href="#" class="card-footer-item">Edit</a>
-                            <a href="#" class="card-footer-item">Delete</a>
+                            <button @click="toCart(pizza.id)" class="button is-rounded is-success card-footer-item">Add to cart</button>
+                            <p v-text="'today for: ' + pizza.cost + '$'" class="card-footer-item"></p>
                         </footer>
                     </div>
                 </div>
@@ -86,14 +87,39 @@
             </p>
         </div>
     </footer>
+    </section>
     </body>
 
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
         let main = new Vue({
-            el: '#tiles',
+            el: '#main',
             data: {
-                pizzas: {!! json_encode($pizzas) !!}
+                pizzas: {!! json_encode($pizzas) !!},
+                cart: [],
+                total_cost: 0,
+            },
+            computed: {
+                order_count: function () {
+                    let count = 0;
+                    this.cart.forEach(item => count += item.count);
+                    return count;
+                },
+            },
+            methods: {
+                toCart(pizza_id) {
+                    let ex_order = this.cart.find(item => item.pizza_id === pizza_id);
+                    if (ex_order) {
+                        ex_order.count++;
+                    } else {
+                        this.cart.push({
+                            pizza_id: pizza_id,
+                            count: 1
+                        });
+                    }
+
+                    this.total_cost += this.pizzas.find(pizza => pizza.id === pizza_id).cost;
+                }
             }
         });
     </script>
