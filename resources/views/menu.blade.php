@@ -136,6 +136,7 @@
         methods: {
             toCart(pizza_id) {
                 let ex_order = this.cart.find(item => item.pizza_id === pizza_id);
+                let pizza = this.pizzas.find(pizza => pizza.id === pizza_id);
                 if (ex_order) {
                     ex_order.count++;
                 } else {
@@ -146,6 +147,15 @@
                 }
                 axios.post('{{ route('cart.addPizza') }}', {
                     pizza_id: pizza_id,
+                }).then(() => {
+                    Swal.fire({
+                        toast: true,
+                        position: 'center-end',
+                        html: 'You took <strong>' + pizza.name + '</strong>. And now you have ' + this.order_count + ' pizzas.',
+                        timer: '3000',
+                        showConfirmButton: false,
+                        timerProgressBar: true
+                    });
                 });
             }
         }

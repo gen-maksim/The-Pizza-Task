@@ -101,6 +101,7 @@
         </div>
         <div id="delivery" class="column card is-half">
             <div class="card-content">
+                <div class="title is-5">Delivery data</div>
                 <form method="post" action="{{ route('order.store') }}">
                     @csrf
                     <div class="field">
