@@ -39,19 +39,21 @@ class OrderTest extends TestCase
     public function guest_can_make_an_order()
     {
         $pizzas = factory(Pizza::class, 3)->create();
+        session()->put('cart', [
+            [
+                'pizza_id' => $pizzas[0]->id,
+                'count' => 2,
+            ],
+            [
+                'pizza_id' => $pizzas[1]->id,
+                'count' => 1,
+            ]
+        ]);
 
         $response = $this->post(route('order.store'), [
-            'pizzas' => [
-                [
-                    'pizza_id' => $pizzas[0]->id,
-                    'count' => 2,
-                ],
-                [
-                    'pizza_id' => $pizzas[1]->id,
-                    'count' => 1,
-                ]
-            ],
-            'delivery_needed' => 0,
+            'address' => $this->faker()->streetAddress,
+            'phone' => $this->faker()->phoneNumber,
+            'name' => $this->faker()->firstName,
         ]);
 
         $created_order = Order::orderByDesc('id')->first();
@@ -76,18 +78,18 @@ class OrderTest extends TestCase
         ]);
         $this->actingAs($jhon);
 
-        $response = $this->post(route('order.store'), [
-            'pizzas' => [
-                [
-                    'pizza_id' => $pizzas[0]->id,
-                    'count' => 1,
-                ],
-                [
-                    'pizza_id' => $pizzas[1]->id,
-                    'count' => 3,
-                ]
+        session()->put('cart', [
+            [
+                'pizza_id' => $pizzas[0]->id,
+                'count' => 1,
             ],
-            'delivery_needed' => 1,
+            [
+                'pizza_id' => $pizzas[1]->id,
+                'count' => 3,
+            ]
+        ]);
+
+        $response = $this->post(route('order.store'), [
             'address' => $this->faker()->streetAddress,
             'phone' => $this->faker()->phoneNumber,
             'name' => $this->faker()->firstName,

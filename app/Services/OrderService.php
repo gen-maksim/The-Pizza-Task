@@ -12,10 +12,13 @@ class OrderService
     public function makeOrder(array $attributes)
     {
         $authed_user = auth()->user();
+        $attributes = array_merge(['pizzas' => $this->getCart()], $attributes);
         $new_order = Order::create([
             'user_id' => $authed_user ? $authed_user->id : null,
             'currency_type' => session('currency_type'),
-            'delivery_needed' => $attributes['delivery_needed'],
+            'address' => $attributes['address'],
+            'name' => $attributes['name'],
+            'phone' => $attributes['phone'],
         ]);
 
         foreach ($attributes['pizzas'] as $pizza_attr) {
@@ -24,15 +27,7 @@ class OrderService
             $new_order->cost += $pizza->cost * $pizza_attr['count'];
         }
 
-        if ($new_order->delivery_needed) {
-            $new_order->fill([
-                'address' => $attributes['address'],
-                'name' => $attributes['name'],
-                'phone' => $attributes['phone'],
-            ]);
-        }
-
-        if ($attributes['remember_delivery'] and $authed_user) {
+        if (isset($attributes['remember_delivery']) and $authed_user) {
             $authed_user->fill([
                 'address' => $attributes['address'],
                 'name' => $attributes['name'],
@@ -44,6 +39,7 @@ class OrderService
         }
 
         $new_order->save();
+        session()->put('cart', []);
         return $new_order;
     }
 
