@@ -46,4 +46,13 @@ class OrderService
         $new_order->save();
         return $new_order;
     }
+
+    public function getCart()
+    {
+        $cart = session('cart');
+        if ($cart == null) {
+            session()->put('cart', []);
+        }
+        return $cart;
+    }
 }

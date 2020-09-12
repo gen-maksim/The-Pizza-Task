@@ -34,13 +34,13 @@
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <p v-text="'You ordered ' + order_count + ' pizzas. Total price: ' + total_cost"></p>
+                    <p v-text="'You ordered ' + order_count + ' pizzas. Total price: ' + total_price + '$'"></p>
                 </div>
                 <div class="navbar-item">
                     <a class="button is-light">
                         Log in
                     </a>
-                    <a class="button is-light">
+                    <a class="button is-light" href="{{ route('cart') }}">
                         Cart
                         <i class="fas fa-shopping-cart"></i>
                     </a>
@@ -61,7 +61,7 @@
         </div>
         <div class="container is-fluid pb-3">
             <div class="columns is-multiline">
-                <div v-for="pizza in pizzas" class="column is-one-quarter">
+                <div v-for="pizza in pizzas" class="column is-one-quarter-desktop">
                     <div class="card" style="background-color: #f2f2f2">
                         <header class="card-header">
                             <p class="card-header-title is-centered is-1" v-text="pizza.name"></p>
@@ -96,8 +96,7 @@
             el: '#main',
             data: {
                 pizzas: {!! json_encode($pizzas) !!},
-                cart: [],
-                total_cost: 0,
+                cart: {!! json_encode($cart) !!},
             },
             computed: {
                 order_count: function () {
@@ -105,6 +104,15 @@
                     this.cart.forEach(item => count += item.count);
                     return count;
                 },
+                total_price: function() {
+                    let total_price = 0;
+                    this.cart.forEach(item => {
+                        let pizza = this.pizzas.find(pizza => pizza.id === item.pizza_id)
+                        total_price += (pizza.cost * item.count);
+                    });
+
+                    return total_price;
+                }
             },
             methods: {
                 toCart(pizza_id) {
@@ -117,8 +125,9 @@
                             count: 1
                         });
                     }
-
-                    this.total_cost += this.pizzas.find(pizza => pizza.id === pizza_id).cost;
+                    axios.post('{{ route('cart.addPizza') }}', {
+                        pizza_id: pizza_id,
+                    });
                 }
             }
         });

@@ -18,7 +18,8 @@ class OrderController extends Controller
     public function menu()
     {
         $pizzas = Pizza::all();
+        $cart = (new OrderService())->getCart();
 
-        return view('menu', ['pizzas' => $pizzas]);
+        return view('menu', ['pizzas' => $pizzas, 'cart' => $cart]);
     }
 }
