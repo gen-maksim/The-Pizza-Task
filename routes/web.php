@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'OrderController@menu')->name('menu');
+Route::get('menu', 'OrderController@menu')->name('menu');
 Route::post('order', 'OrderController@store')->name('order.store');
 
 Route::get('cart', 'CartController@cart')->name('cart');

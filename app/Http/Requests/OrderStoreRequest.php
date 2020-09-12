@@ -38,9 +38,9 @@ class OrderStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'address' => 'required_if:delivery_needed,1|string',
-            'name' => 'required_if:delivery_needed,1|string',
-            'phone' => 'required_if:delivery_needed,1|string',
+            'address' => 'required|string',
+            'name' => 'required|string',
+            'phone' => 'required|string',
             'remember_delivery' => 'sometimes|in:0,1'
         ];
     }

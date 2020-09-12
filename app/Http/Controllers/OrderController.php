@@ -12,7 +12,7 @@ class OrderController extends Controller
     {
         $new_order = (new OrderService())->makeOrder($request->all());
 
-        return response(['status' => 'success']);
+        return redirect(route('menu'))->with('order_succeed', 'true');
     }
 
     public function menu()

@@ -94,27 +94,28 @@
                 </article>
                 <article class="media">
                 <div class="media-content">
-                    <p>So, your total price is: <strong>@{{ total_price }}$ </strong></p>
+                    <p>So, your total price is: <strong>@{{ total_price }}$ (included 10$ deliver)</strong></p>
                 </div>
             </article>
             </div>
         </div>
         <div id="delivery" class="column card is-half">
             <div class="card-content">
-                <form>
+                <form method="post" action="{{ route('order.store') }}">
+                    @csrf
                     <div class="field">
                         <label class="label">Name</label>
                         <div class="control has-icons-left">
-                            <input class="input" v-model="name" type="text" placeholder="To sign you pizza box" required>
+                            <input class="input" name="name" v-model="name" type="text" placeholder="To sign you pizza box" required>
                             <span class="icon is-small is-left">
                               <i class="fas fa-user"></i>
                             </span>
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Email</label>
+                        <label class="label">Address</label>
                         <div class="control has-icons-left">
-                            <input class="input" v-model="address" placeholder="To tell pizza man where to go" required>
+                            <input class="input" name="address" v-model="address" placeholder="To tell pizza man where to go" required>
                             <span class="icon is-small is-left">
                               <i class="fas fa-map-marked-alt"></i>
                             </span>
@@ -123,7 +124,7 @@
                     <div class="field">
                         <label class="label">Phone</label>
                         <div class="control has-icons-left">
-                            <input class="input" v-model="phone" v-mask="'8(###)###-##-##'" pattern="8\([0-9]{3}\)[0-9]{3}-[0-9]{2}-[0-9]{2}" type="tel" placeholder="To clarify some details" required>
+                            <input class="input" name="phone" v-model="phone" v-mask="'8(###)###-##-##'" pattern="8\([0-9]{3}\)[0-9]{3}-[0-9]{2}-[0-9]{2}" type="tel" placeholder="To clarify some details" required>
                             <span class="icon is-small is-left">
                               <i class="fas fa-phone"></i>
                             </span>
@@ -132,7 +133,7 @@
                     <div class="field">
                         <div class="control">
                             <label class="checkbox">
-                                <input type="checkbox" v-model="remember_delivery" {{ auth()->user() == false ? 'disabled' : '' }}>
+                                <input type="checkbox" name="remember_delivery" v-model="remember_delivery" {{ auth()->user() == false ? 'disabled' : '' }}>
                                 Save your data (we will fill it for you next time) <strong>{{ auth()->user() == false ? 'Sorry, this feature is only for logged in users' : '' }}</strong>
                             </label>
                         </div>
@@ -170,7 +171,7 @@
                 return count;
             },
             total_price: function() {
-                let total_price = 0;
+                let total_price = 10;
                 this.cart.forEach(item => {
                     let pizza = this.pizzas.find(pizza => pizza.id === item.pizza_id)
                     total_price += (pizza.cost * item.count);

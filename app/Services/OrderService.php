@@ -15,10 +15,11 @@ class OrderService
         $attributes = array_merge(['pizzas' => $this->getCart()], $attributes);
         $new_order = Order::create([
             'user_id' => $authed_user ? $authed_user->id : null,
-            'currency_type' => session('currency_type'),
+            'currency_type' => session('currency_type') ?? 1,
             'address' => $attributes['address'],
             'name' => $attributes['name'],
             'phone' => $attributes['phone'],
+            'cost' => 10
         ]);
 
         foreach ($attributes['pizzas'] as $pizza_attr) {
@@ -46,8 +47,10 @@ class OrderService
     public function getCart()
     {
         $cart = session('cart');
+
         if ($cart == null) {
             session()->put('cart', []);
+            $cart = [];
         }
         return $cart;
     }

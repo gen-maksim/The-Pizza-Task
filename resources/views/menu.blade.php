@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Pizza app</title>
+    <title>Pizza app</title>
 
-        <!-- Fonts -->
-        <script src="https://kit.fontawesome.com/92abca6220.js" crossorigin="anonymous"></script>
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <style>
-            .pizza_back {
-                background-image: url('pics/pizza_back.jpg');
-                background-size: contain;
-            }
-            .footer {
-                padding: 1rem;
-            }
-        </style>
-    </head>
-    <body>
-    <section id="main">
+    <!-- Fonts -->
+    <script src="https://kit.fontawesome.com/92abca6220.js" crossorigin="anonymous"></script>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .pizza_back {
+            background-image: url('pics/pizza_back.jpg');
+            background-size: contain;
+        }
+
+        .footer {
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+<section id="main">
     <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #f4faf7">
         <div class="navbar-brand">
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
@@ -72,7 +74,9 @@
                             </figure>
                         </div>
                         <footer class="card-footer">
-                            <button @click="toCart(pizza.id)" class="button is-rounded is-success card-footer-item">Add to cart</button>
+                            <button @click="toCart(pizza.id)" class="button is-rounded is-success card-footer-item">
+                                Add to cart
+                            </button>
                             <p v-text="'today for: ' + pizza.cost + '$'" class="card-footer-item"></p>
                         </footer>
                     </div>
@@ -87,49 +91,64 @@
             </p>
         </div>
     </footer>
-    </section>
-    </body>
+</section>
+</body>
 
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script>
-        let main = new Vue({
-            el: '#main',
-            data: {
-                pizzas: {!! json_encode($pizzas) !!},
-                cart: {!! json_encode($cart) !!},
-            },
-            computed: {
-                order_count: function () {
-                    let count = 0;
-                    this.cart.forEach(item => count += item.count);
-                    return count;
-                },
-                total_price: function() {
-                    let total_price = 0;
-                    this.cart.forEach(item => {
-                        let pizza = this.pizzas.find(pizza => pizza.id === item.pizza_id)
-                        total_price += (pizza.cost * item.count);
-                    });
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
 
-                    return total_price;
-                }
+    let main = new Vue({
+        el: '#main',
+        data: {
+            pizzas: {!! json_encode($pizzas) !!},
+            cart: {!! json_encode($cart) !!},
+        },
+        mounted() {
+            @if(session('order_succeed'))
+            Swal.fire({
+                toast: true,
+                position: 'top',
+                title: 'Thanks, for order!',
+                timer: '5000',
+                icon: 'success',
+                showCloseButton: true,
+                showConfirmButton: false,
+                timerProgressBar: true
+            });
+            @endif
+        },
+        computed: {
+            order_count: function () {
+                let count = 0;
+                this.cart.forEach(item => count += item.count);
+                return count;
             },
-            methods: {
-                toCart(pizza_id) {
-                    let ex_order = this.cart.find(item => item.pizza_id === pizza_id);
-                    if (ex_order) {
-                        ex_order.count++;
-                    } else {
-                        this.cart.push({
-                            pizza_id: pizza_id,
-                            count: 1
-                        });
-                    }
-                    axios.post('{{ route('cart.addPizza') }}', {
-                        pizza_id: pizza_id,
-                    });
-                }
+            total_price: function () {
+                let total_price = 0;
+                this.cart.forEach(item => {
+                    let pizza = this.pizzas.find(pizza => pizza.id === item.pizza_id)
+                    total_price += (pizza.cost * item.count);
+                });
+
+                return total_price;
             }
-        });
-    </script>
+        },
+        methods: {
+            toCart(pizza_id) {
+                let ex_order = this.cart.find(item => item.pizza_id === pizza_id);
+                if (ex_order) {
+                    ex_order.count++;
+                } else {
+                    this.cart.push({
+                        pizza_id: pizza_id,
+                        count: 1
+                    });
+                }
+                axios.post('{{ route('cart.addPizza') }}', {
+                    pizza_id: pizza_id,
+                });
+            }
+        }
+    });
+</script>
 </html>
