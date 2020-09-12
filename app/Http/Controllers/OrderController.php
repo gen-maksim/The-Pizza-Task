@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CurrencyRequest;
 use App\Http\Requests\OrderStoreRequest;
 use App\Models\Pizza;
 use App\Services\OrderService;
@@ -19,7 +20,13 @@ class OrderController extends Controller
     {
         $pizzas = Pizza::all();
         $cart = (new OrderService())->getCart();
+        (new OrderService())->checkCurrency();
 
         return view('menu', ['pizzas' => $pizzas, 'cart' => $cart]);
+    }
+
+    public function setCurrency(CurrencyRequest $request)
+    {
+        session()->put('currency_type', $request->type);
     }
 }

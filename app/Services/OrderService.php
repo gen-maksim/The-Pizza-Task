@@ -49,9 +49,25 @@ class OrderService
         $cart = session('cart');
 
         if ($cart == null) {
-            session()->put('cart', []);
             $cart = [];
+            session()->put('cart', $cart);
         }
         return $cart;
+    }
+
+    public function checkCurrency()
+    {
+        $currency = session('currency_type');
+
+        if ($currency === null) {
+            if (auth()->user()) {
+                $currency = auth()->user()->currency_type;
+            } else {
+                $currency = 1;
+            }
+            session()->put('currency_type', $currency);
+        }
+
+        return $currency;
     }
 }

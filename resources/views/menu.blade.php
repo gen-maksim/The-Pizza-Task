@@ -31,12 +31,30 @@
             </a>
         </div>
 
-        <div id="navbarBasicExample" class="navbar-menu is-active">
+        <div id="navbarBasic" class="navbar-menu is-active">
             <div class="navbar-start">
+                <div class="navbar-item">
+                    <div class="field has-addons">
+                        <p class="control">
+                            <button class="button" :class="(currency_type === 1) && 'is-active is-focused'" @click="setCurrency(1)">
+                                <span class="icon is-small">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="button" :class="(currency_type === 0) && 'is-active is-focused'" @click="setCurrency(0)">
+                                <span class="icon is-small">
+                                  <i class="fas fa-euro-sign"></i>
+                                </span>
+                            </button>
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <p v-text="'You ordered ' + order_count + ' pizzas. Total price: ' + total_price + '$'"></p>
+                    <p v-text="'You ordered ' + order_count + ' pizzas. Total price: ' + total_price + this.currency_sign"></p>
                 </div>
                 <div class="navbar-item">
                     <a class="button is-light">
@@ -77,7 +95,7 @@
                             <button @click="toCart(pizza.id)" class="button is-rounded is-success card-footer-item">
                                 Add to cart
                             </button>
-                            <p v-text="'today for: ' + pizza.cost + '$'" class="card-footer-item"></p>
+                            <p v-text="'today for: ' + convertPrice(pizza.cost) + currency_sign" class="card-footer-item"></p>
                         </footer>
                     </div>
                 </div>
@@ -102,6 +120,7 @@
         data: {
             pizzas: {!! json_encode($pizzas) !!},
             cart: {!! json_encode($cart) !!},
+            currency_type: {{ session('currency_type') }},
         },
         mounted() {
             @if(session('order_succeed'))
@@ -127,14 +146,20 @@
                 let total_price = 0;
                 this.cart.forEach(item => {
                     let pizza = this.pizzas.find(pizza => pizza.id === item.pizza_id)
-                    total_price += (pizza.cost * item.count);
+                    total_price += (this.convertPrice(pizza.cost) * item.count);
                 });
 
-                return total_price;
+                return Number(total_price.toFixed(1));
+            },
+            currency_multiplier: function () {
+                return this.currency_type === 0 ? 0.84 : 1;
+            },
+            currency_sign: function () {
+                return this.currency_type === 0 ? '€' : '$';
             }
         },
         methods: {
-            toCart(pizza_id) {
+            toCart (pizza_id) {
                 let ex_order = this.cart.find(item => item.pizza_id === pizza_id);
                 let pizza = this.pizzas.find(pizza => pizza.id === pizza_id);
                 if (ex_order) {
@@ -157,8 +182,18 @@
                         timerProgressBar: true
                     });
                 });
+            },
+            convertPrice (price) {
+                price = parseInt(price);
+                return Number((price * this.currency_multiplier).toFixed(1));
+            },
+            setCurrency (type) {
+                this.currency_type = type;
+                axios.post('{{ route('currency.set') }}', {
+                    type: type
+                })
             }
-        }
+        },
     });
 </script>
 </html>

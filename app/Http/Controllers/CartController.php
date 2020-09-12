@@ -12,6 +12,7 @@ class CartController extends Controller
     {
         $pizzas = Pizza::all();
         $cart = (new OrderService())->getCart();
+        (new OrderService())->checkCurrency();
 
         return view('cart', ['pizzas' => $pizzas, 'cart' => $cart]);
     }
