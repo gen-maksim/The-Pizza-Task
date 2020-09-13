@@ -4,16 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Pizza app</title>
+    <title>Pizza cart</title>
 
     <!-- Fonts -->
     <script src="https://kit.fontawesome.com/92abca6220.js" crossorigin="anonymous"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
-        .pizza_back {
-            background-image: url('pics/pizza_back.jpg');
-            background-size: contain;
-        }
         .footer {
             padding: 1rem;
         }
@@ -46,9 +42,15 @@
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <a class="button is-light">
-                        Log in
-                    </a>
+                    @if (auth()->check())
+                        <a class="button is-light" href="{{ route('logout') }}">
+                            Log out
+                        </a>
+                    @else
+                        <a class="button is-light" href="{{ route('login') }}">
+                            Log in
+                        </a>
+                    @endif
                     <a class="button is-light" href="{{ route('menu') }}">
                         Menu
                         <i class="fas fa-pizza-slice"></i>
@@ -69,7 +71,7 @@
     <div class="columns is-centered mt-5">
         <div id="cart" class="column">
             <div v-if="cart.length < 1">
-                <p> First you need to choose any pizza, try or special!</p>
+                <p> First you need to choose any pizza, try our special!</p>
             </div>
             <div v-else>
                 <article v-for="item in cart" class="media">
@@ -147,13 +149,22 @@
                         <div class="control">
                             <label class="checkbox">
                                 <input type="checkbox" name="remember_delivery" v-model="remember_delivery" {{ auth()->user() == false ? 'disabled' : '' }}>
-                                Save your data (we will fill it for you next time) <strong>{{ auth()->user() == false ? 'Sorry, this feature is only for logged in users' : '' }}</strong>
+                                Save or update your data (we will fill it for you next time) <strong>{{ auth()->user() == false ? 'Sorry, this feature is only for logged in users' : '' }}</strong>
                             </label>
                         </div>
                     </div>
                     <div class="control">
                         <button class="button is-link" :disabled="cartIsntEmpty()">Submit</button>
                     </div>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li class="has-text-danger has-text-weight-medium">{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </form>
             </div>
         </div>
@@ -263,9 +274,9 @@
     let delivery = new Vue({
         el: '#delivery',
         data: {
-            'name': '',
-            'address': '',
-            'phone': '',
+            'name': '{{ auth()->check() ? auth()->user()->name : ''}}',
+            'address': '{{ auth()->check() ? auth()->user()->address : ''}}',
+            'phone': '{{ auth()->check() ? auth()->user()->phone : ''}}',
             'remember_delivery': '',
         },
         methods: {

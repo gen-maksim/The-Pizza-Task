@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Pizza app</title>
+    <title>Pizza menu</title>
 
     <!-- Fonts -->
     <script src="https://kit.fontawesome.com/92abca6220.js" crossorigin="anonymous"></script>
@@ -54,9 +54,15 @@
                     </div>
                 </div>
                 <div class="navbar-item">
-                    <a class="button is-light">
-                        Log in
-                    </a>
+                    @if (auth()->check())
+                        <a class="button is-light" href="{{ route('logout') }}">
+                            Log out
+                        </a>
+                    @else
+                        <a class="button is-light" href="{{ route('login') }}">
+                            Log in
+                        </a>
+                    @endif
                     <a class="button is-light" href="{{ route('cart') }}">
                         Cart
                         <i class="fas fa-shopping-cart"></i>
@@ -124,7 +130,7 @@
             Swal.fire({
                 toast: true,
                 position: 'top',
-                title: 'Thanks, for order!',
+                title: 'Thanks for your order!',
                 timer: '5000',
                 icon: 'success',
                 showCloseButton: true,
