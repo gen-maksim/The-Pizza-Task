@@ -115,7 +115,7 @@
 </section>
 </body>
 
-<script src="{{ mix('/js/app.js') }}"></script>
+<script src="{{ asset('test/app.js') }}"></script>
 <script>
 
     let main = new Vue({
