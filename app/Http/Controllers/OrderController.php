@@ -28,5 +28,10 @@ class OrderController extends Controller
     public function setCurrency(CurrencyRequest $request)
     {
         session()->put('currency_type', $request->type);
+        $authed_user = auth()->user();
+        if ($authed_user) {
+            $authed_user->currency_type = $request->type;
+            $authed_user->save();
+        }
     }
 }

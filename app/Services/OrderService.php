@@ -11,6 +11,7 @@ class OrderService
 {
     public function makeOrder(array $attributes)
     {
+        $this->checkCurrency();
         $authed_user = auth()->user();
         $attributes = array_merge(['pizzas' => $this->getCart()], $attributes);
         $new_order = Order::create([
@@ -27,6 +28,7 @@ class OrderService
             $new_order->pizzas()->attach($pizza, ['count' => $pizza_attr['count']]);
             $new_order->cost += $pizza->cost * $pizza_attr['count'];
         }
+        $new_order->cost *= (session('currency_type') === 0 ? 0.84 : 1);
 
         if (isset($attributes['remember_delivery']) and $authed_user) {
             $authed_user->fill([
