@@ -41,7 +41,7 @@ class OrderStoreRequest extends FormRequest
             'address' => 'required|string',
             'name' => 'required|string',
             'phone' => 'required|string',
-            'remember_delivery' => 'sometimes|in:0,1'
+            'remember_delivery' => 'sometimes|accepted'
         ];
     }
 }

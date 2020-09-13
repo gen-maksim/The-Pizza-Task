@@ -13,7 +13,6 @@ class OrderService
     {
         $this->checkCurrency();
         $authed_user = auth()->user();
-        $attributes = array_merge(['pizzas' => $this->getCart()], $attributes);
         $new_order = Order::create([
             'user_id' => $authed_user ? $authed_user->id : null,
             'currency_type' => session('currency_type') ?? 1,

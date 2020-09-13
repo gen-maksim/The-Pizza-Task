@@ -11,7 +11,12 @@ class OrderController extends Controller
 {
     public function store(OrderStoreRequest $request)
     {
-        $new_order = (new OrderService())->makeOrder($request->all());
+        $pizzas = (new OrderService())->getCart();
+
+        if (count($pizzas) === 0) {
+            return back()->withErrors(['pizza' => 'Wow, looks like you ordered only delivery. Please, add some pizza!']);
+        }
+        $new_order = (new OrderService())->makeOrder(array_merge(['pizzas' => $pizzas], $request->all()));
 
         return redirect(route('menu'))->with('order_succeed', 'true');
     }
