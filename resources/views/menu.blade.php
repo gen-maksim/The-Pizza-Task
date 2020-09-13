@@ -23,14 +23,6 @@
 <body>
 <section id="main">
     <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #f4faf7">
-        <div class="navbar-brand">
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-               data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-
         <div id="navbarBasic" class="navbar-menu is-active">
             <div class="navbar-start">
                 <div class="navbar-item">
@@ -54,7 +46,12 @@
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <p v-text="'You ordered ' + order_count + ' pizzas. Total price: ' + total_price + this.currency_sign"></p>
+                    <div class="tags has-addons ">
+                        <span class="tag is-link is-medium is-rounded" v-text="'You ordered ' + order_count + ' pizzas.'">
+                        </span>
+                        <span class="tag is-info is-medium is-rounded" v-text="'Total price: ' + total_price + this.currency_sign">
+                        </span>
+                    </div>
                 </div>
                 <div class="navbar-item">
                     <a class="button is-light">
@@ -146,10 +143,10 @@
                 let total_price = 0;
                 this.cart.forEach(item => {
                     let pizza = this.pizzas.find(pizza => pizza.id === item.pizza_id)
-                    total_price += (this.convertPrice(pizza.cost) * item.count);
+                    total_price += (pizza.cost * item.count);
                 });
 
-                return Number(total_price.toFixed(1));
+                return Number(this.convertPrice(total_price));
             },
             currency_multiplier: function () {
                 return this.currency_type === 0 ? 0.84 : 1;
@@ -185,7 +182,7 @@
             },
             convertPrice (price) {
                 price = parseInt(price);
-                return Number((price * this.currency_multiplier).toFixed(1));
+                return Number((price * this.currency_multiplier).toFixed(2));
             },
             setCurrency (type) {
                 this.currency_type = type;

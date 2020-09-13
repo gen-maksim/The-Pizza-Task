@@ -22,15 +22,27 @@
 <body>
 <section>
     <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #f4faf7">
-        <div class="navbar-brand">
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
 
-        <div id="navbarBasicExample" class="navbar-menu is-active">
+        <div id="currency" class="navbar-menu is-active">
             <div class="navbar-start">
+                <div class="navbar-item">
+                    <div class="field has-addons">
+                        <p class="control">
+                            <button class="button" :class="(currency_type === 1) && 'is-active is-focused'" @click="setCurrency(1)">
+                                <span class="icon is-small">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="button" :class="(currency_type === 0) && 'is-active is-focused'" @click="setCurrency(0)">
+                                <span class="icon is-small">
+                                  <i class="fas fa-euro-sign"></i>
+                                </span>
+                            </button>
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
@@ -69,7 +81,7 @@
                     <div class="media-content">
                         <div class="content">
                             <p>
-                                <strong>@{{ getPizza(item.pizza_id).name }}</strong> <small v-text="(getPizza(item.pizza_id).cost * item.count) + '$'"></small>
+                                <strong>@{{ getPizza(item.pizza_id).name }}</strong> <small v-text="getPizzaCostText(item)"></small>
                                 <br>
                                 What our clients say: "@{{ getPizza(item.pizza_id).description }}"
                             </p>
@@ -94,7 +106,7 @@
                 </article>
                 <article class="media">
                 <div class="media-content">
-                    <p>So, your total price is: <strong>@{{ total_price }}$ (included 10$ deliver)</strong></p>
+                    <p>So, your total price is: <strong>@{{ total_price_text }} (included @{{ delivery_text }} deliver)</strong></p>
                 </div>
             </article>
             </div>
@@ -158,6 +170,32 @@
 
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
+    let currency = new Vue({
+        el: '#currency',
+        data: {
+            currency_type: {{ session('currency_type') }}
+        },
+        computed: {
+            currency_multiplier: function () {
+                return this.currency_type === 0 ? 0.84 : 1;
+            },
+            currency_sign: function () {
+                return this.currency_type === 0 ? '€' : '$';
+            }
+        },
+        methods: {
+            convertPrice (price) {
+                price = parseInt(price);
+                return Number((price * this.currency_multiplier).toFixed(2));
+            },
+            setCurrency (type) {
+                this.currency_type = type;
+                axios.post('{{ route('currency.set') }}', {
+                    type: type
+                })
+            }
+        }
+    });
 
     let cart = new Vue({
         el: '#cart',
@@ -171,19 +209,26 @@
                 this.cart.forEach(item => count += item.count);
                 return count;
             },
-            total_price: function() {
+            total_price_text: function() {
+                //here we already have 10 dollars for a delivery
                 let total_price = 10;
                 this.cart.forEach(item => {
                     let pizza = this.pizzas.find(pizza => pizza.id === item.pizza_id)
                     total_price += (pizza.cost * item.count);
                 });
 
-                return total_price;
+                return Number(currency.convertPrice(total_price)) + currency.currency_sign;
+            },
+            delivery_text: function () {
+                return currency.convertPrice(10) + currency.currency_sign;
             }
         },
         methods: {
             getPizza(pizza_id) {
                 return this.pizzas.find(pizza => pizza.id === pizza_id);
+            },
+            getPizzaCostText(cart_item) {
+                return (currency.convertPrice((this.getPizza(cart_item.pizza_id).cost * cart_item.count))) + currency.currency_sign;
             },
             addPizza(pizza_id) {
                 let ex_order = this.cart.find(item => item.pizza_id === pizza_id);
