@@ -8,7 +8,7 @@
 
     <!-- Fonts -->
     <script src="https://kit.fontawesome.com/92abca6220.js" crossorigin="anonymous"></script>
-    <link href="{{ asset('assets/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <style>
         .footer {
             padding: 1rem;
@@ -201,7 +201,7 @@
 </section>
 </body>
 
-<script src="{{ asset('assets/app.js') }}"></script>
+<script src="{{ mix('js/app.js') }}"></script>
 <script>
     let currency = new Vue({
         el: '#currency',

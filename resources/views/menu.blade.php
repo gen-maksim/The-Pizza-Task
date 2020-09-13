@@ -8,7 +8,7 @@
 
     <!-- Fonts -->
     <script src="https://kit.fontawesome.com/92abca6220.js" crossorigin="anonymous"></script>
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <style>
         .pizza_back {
             background-image: url('pics/pizza_back.jpg');
@@ -115,7 +115,7 @@
 </section>
 </body>
 
-<script src="{{ asset('test/app.js') }}"></script>
+<script src="{{ mix('js/app.js') }}"></script>
 <script>
 
     let main = new Vue({
