@@ -169,6 +169,27 @@
             </div>
         </div>
     </div>
+        <div id="history" >
+            <div v-if="history.length > 0">
+                <h1 class="title"> Your last orders</h1>
+                <hr>
+                <article v-for="order in history" class="media">
+                    <div class="media-left">
+                        <p><i>@{{ order.created_at }}</i>: Total price: @{{ order.total_price }} @{{ order.currency_type === 1 ? '$' : '€' }}</p>
+                    </div>
+                    <div class="media-content content">
+                        <ul>
+                            <li v-for="pizza in order.pizzas">
+                                <p><strong>@{{ pizza.name }}: @{{ pizza.count }}</strong></p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="media-right">
+                        <p></p>
+                    </div>
+                </article>
+            </div>
+        </div>
     <footer class="footer">
         <div class="content has-text-centered">
             <p>
@@ -283,6 +304,13 @@
             cartIsntEmpty () {
                 return !(cart.cart.length > 0);
             },
+        }
+    });
+
+    let history = new Vue({
+        el: '#history',
+        data: {
+            history: {!! json_encode($history) !!},
         }
     });
 </script>

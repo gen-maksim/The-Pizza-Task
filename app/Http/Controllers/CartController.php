@@ -13,8 +13,12 @@ class CartController extends Controller
         $pizzas = Pizza::all();
         $cart = (new OrderService())->getCart();
         (new OrderService())->checkCurrency();
+        $history = [];
+        if (auth()->check()) {
+            $history = (new OrderService())->getUserHistory(auth()->user());
+        }
 
-        return view('cart', ['pizzas' => $pizzas, 'cart' => $cart]);
+        return view('cart', ['pizzas' => $pizzas, 'cart' => $cart, 'history' => $history]);
     }
 
     public function addPizza(Request $request)

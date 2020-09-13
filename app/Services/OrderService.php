@@ -3,7 +3,6 @@
 
 namespace App\Services;
 
-
 use App\Models\Order;
 use App\Models\Pizza;
 
@@ -70,5 +69,28 @@ class OrderService
         }
 
         return $currency;
+    }
+
+    public function getUserHistory($user)
+    {
+        $orders = $user->orders()->get();
+        $history = [];
+        foreach ($orders as $order) {
+            $pizzas = [];
+            foreach ($order->pizzas()->get() as $pizza) {
+                $pizzas []= [
+                    'name' => $pizza->name,
+                    'count' => $pizza->count
+                ];
+            }
+            $history []= [
+                'total_price' => $order->cost,
+                'currency_type' => $order->currency_type,
+                'pizzas' => $pizzas,
+                'created_at' => $order->created_at->toDateTimeString(),
+            ];
+        }
+
+        return $history;
     }
 }

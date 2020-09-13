@@ -101,5 +101,6 @@ class OrderTest extends TestCase
         $this->assertEquals(2, $created_order->pizzas()->count());
         $this->assertEquals($created_order->address, $jhon->address);
         $this->assertEquals(session('currency_type'), $jhon->currency_type);
+        $this->assertEquals($created_order->id, $jhon->orders()->first()->id);
     }
 }
