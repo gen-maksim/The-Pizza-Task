@@ -68,7 +68,7 @@
                 Get your pizza delivered
             </h2>
         </div>
-    <div class="columns is-centered mt-5">
+        <div class="columns is-centered mt-5">
         <div id="cart" class="column">
             <div v-if="cart.length < 1">
                 <p> First you need to choose any pizza, try our special!</p>
@@ -190,6 +190,7 @@
                 </article>
             </div>
         </div>
+    </div>
     <footer class="footer">
         <div class="content has-text-centered">
             <p>
