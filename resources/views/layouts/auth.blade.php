@@ -7,17 +7,11 @@
     <title>Pizza registration</title>
 
     <!-- Fonts -->
-    <script src="https://kit.fontawesome.com/92abca6220.js" crossorigin="anonymous"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <style>
-        .footer {
-            padding: 1rem;
-        }
-    </style>
 </head>
 <body>
 <section>
-    <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #f4faf7">
+    <nav class="navbar sticky-nav" role="navigation" aria-label="main navigation" style="background-color: #f4faf7">
         <div class="navbar-menu is-active">
             <div class="navbar-end">
                 <div class="navbar-item">

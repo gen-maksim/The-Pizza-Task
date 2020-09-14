@@ -11,7 +11,6 @@
             </h2>
         </div>
         <div class="columns is-centered mt-5">
-
             <div id="delivery" class="column card is-half">
                 <div class="card-content">
                     <h1 class="title is-4">Fill credentials, please</h1>

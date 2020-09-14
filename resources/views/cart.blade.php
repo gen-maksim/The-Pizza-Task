@@ -7,7 +7,6 @@
     <title>Pizza cart</title>
 
     <!-- Fonts -->
-    <script src="https://kit.fontawesome.com/92abca6220.js" crossorigin="anonymous"></script>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>

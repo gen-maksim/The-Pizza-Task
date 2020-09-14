@@ -3,10 +3,8 @@
 
 // Bootstrap
 @import '~bulma/bulma.sass';
-
-.pizza_back {
-    background-size: contain;
-}
+@import 'fontawesome/fontawesome';
+@import 'fontawesome/solid';
 
 .footer {
     padding: 1rem;

@@ -7,8 +7,26 @@
     <title>Pizza menu</title>
 
     <!-- Fonts -->
-    <script src="https://kit.fontawesome.com/92abca6220.js" crossorigin="anonymous"></script>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <style>
+        .pizza_back {
+            display: block;
+            position: relative;
+        }
+
+        .pizza_back::after {
+            content: "";
+            background: url('pics/pizza_back.jpg');
+            background-size: contain;
+            opacity: 0.6;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
 <section id="main">
@@ -61,7 +79,7 @@
             </div>
         </div>
     </nav>
-    <section class="hero pizza_back" style="background-image: url('pics/pizza_back.jpg')">
+    <section class="hero pizza_back">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title" style="color: #e3f1fa">
