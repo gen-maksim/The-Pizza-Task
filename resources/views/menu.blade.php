@@ -55,7 +55,7 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="tags has-addons ">
-                        <span class="tag is-link is-medium is-rounded" v-text="'You ordered ' + order_count + ' pizzas.'">
+                        <span class="tag is-link is-medium is-rounded" v-text="'You ordered ' + order_count + (order_count === 1 ? ' pizza': ' pizzas')">
                         </span>
                         <span class="tag is-info is-medium is-rounded" v-text="'Total price: ' + total_price + this.currency_sign">
                         </span>
@@ -187,7 +187,7 @@
                     Swal.fire({
                         toast: true,
                         position: 'center-end',
-                        html: 'You took <strong>' + pizza.name + '</strong>. And now you have ' + this.order_count + ' pizzas.',
+                        html: 'You took <strong>' + pizza.name + '</strong>. And now you have ' + this.order_count + (this.order_count === 1 ? ' pizza': ' pizzas'),
                         timer: '3000',
                         showConfirmButton: false,
                         timerProgressBar: true
