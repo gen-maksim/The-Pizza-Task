@@ -63,48 +63,50 @@
         </div>
         <div class="columns is-centered mt-5">
         <div id="cart" class="column">
-            <div v-if="cart.length < 1">
-                <p> First you need to choose any pizza, try our special!</p>
-            </div>
-            <div v-else>
-                <article v-for="item in cart" class="media">
-                    <figure class="media-left">
-                        <p class="image is-128x128">
-                            <img :src="getPizza(item.pizza_id).pic_url">
-                        </p>
-                    </figure>
-                    <div class="media-content">
-                        <div class="content">
-                            <p>
-                                <strong>@{{ getPizza(item.pizza_id).name }}</strong> <small v-text="getPizzaCostText(item)"></small>
-                                <br>
-                                What our clients say: "@{{ getPizza(item.pizza_id).description }}"
+            <template>
+                <div v-if="cart.length < 1">
+                    <p> First you need to choose any pizza, try our special!</p>
+                </div>
+                <div v-else>
+                    <article v-for="item in cart" class="media">
+                        <figure class="media-left">
+                            <p class="image is-128x128">
+                                <img :src="getPizza(item.pizza_id).pic_url">
                             </p>
-                        </div>
-                        <nav class="level is-mobile">
-                            <div class="level-left">
-                                <button class="level-item button is-white has-text-danger-dark" :disabled="item.count <= 1" @click="deletePizza(item.pizza_id)">
-                                    <span class="icon is-medium"><i class="fas fa-minus-circle"></i></span>
-                                </button>
-                                <p class="level-item">
-                                    <span class="is-medium" v-text="item.count"></span>
+                        </figure>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <strong>@{{ getPizza(item.pizza_id).name }}</strong> <small v-text="getPizzaCostText(item)"></small>
+                                    <br>
+                                    What our clients say: "@{{ getPizza(item.pizza_id).description }}"
                                 </p>
-                                <button class="level-item button is-white has-text-success-dark" @click="addPizza(item.pizza_id)">
-                                    <span class="icon is-medium"><i class="fas fa-plus-circle"></i></span>
-                                </button>
                             </div>
-                        </nav>
-                    </div>
-                    <div class="media-right">
-                        <button class="delete" @click="removePizza(item.pizza_id)"></button>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+                                    <button class="level-item button is-white has-text-danger-dark" :disabled="item.count <= 1" @click="deletePizza(item.pizza_id)">
+                                        <span class="icon is-medium"><i class="fas fa-minus-circle"></i></span>
+                                    </button>
+                                    <p class="level-item">
+                                        <span class="is-medium" v-text="item.count"></span>
+                                    </p>
+                                    <button class="level-item button is-white has-text-success-dark" @click="addPizza(item.pizza_id)">
+                                        <span class="icon is-medium"><i class="fas fa-plus-circle"></i></span>
+                                    </button>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class="media-right">
+                            <button class="delete" @click="removePizza(item.pizza_id)"></button>
+                        </div>
+                    </article>
+                    <article class="media">
+                    <div class="media-content">
+                        <p>So, your total price is: <strong>@{{ total_price_text }} (included @{{ delivery_text }} deliver)</strong></p>
                     </div>
                 </article>
-                <article class="media">
-                <div class="media-content">
-                    <p>So, your total price is: <strong>@{{ total_price_text }} (included @{{ delivery_text }} deliver)</strong></p>
                 </div>
-            </article>
-            </div>
+            </template>
         </div>
         <div id="delivery" class="column card is-half">
             <div class="card-content">
@@ -163,7 +165,8 @@
         </div>
     </div>
         <div id="history" >
-            <div v-if="history.length > 0">
+            <template>
+                <div v-if="history.length > 0">
                 <h1 class="title"> Your last orders</h1>
                 <hr>
                 <article v-for="order in history" class="media">
@@ -182,6 +185,7 @@
                     </div>
                 </article>
             </div>
+            </template>
         </div>
     </div>
     <footer class="footer">

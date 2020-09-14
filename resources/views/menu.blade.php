@@ -92,8 +92,9 @@
         </div>
         <div class="container is-fluid pb-3">
             <div class="columns is-multiline">
-                <div v-for="pizza in pizzas" class="column is-one-quarter-desktop">
-                    <div class="card" style="background-color: #f2f2f2">
+                <template>
+                    <div v-for="pizza in pizzas" class="column is-one-quarter-desktop">
+                        <div class="card" style="background-color: #f2f2f2">
                         <header class="card-header">
                             <p class="card-header-title is-centered is-1" v-text="pizza.name"></p>
                         </header>
@@ -109,7 +110,8 @@
                             <p v-text="'today for: ' + convertPrice(pizza.cost) + currency_sign" class="card-footer-item"></p>
                         </footer>
                     </div>
-                </div>
+                    </div>
+                </template>
             </div>
         </div>
     </section>
