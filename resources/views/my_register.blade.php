@@ -20,10 +20,10 @@
                         <div class="field">
                             <label class="label">Name</label>
                             <div class="control has-icons-left">
-                                <input class="input" name="name" type="text" placeholder="To sign your pizza box" value="{{ old('name') }}" required>
+                                <input class="input" name="name" type="text" placeholder="To sign your pizza box" value="{{ old('name') }}" required maxlength="250">
                                 <span class="icon is-small is-left">
-                              <i class="fas fa-user"></i>
-                            </span>
+                                    <i class="fas fa-user"></i>
+                                </span>
                                 @error('name')
                                     <p class="has-text-danger has-text-weight-medium">{{ $message }}</p>
                                 @enderror
@@ -32,10 +32,10 @@
                         <div class="field">
                             <label class="label">Email</label>
                             <div class="control has-icons-left">
-                                <input class="input" name="email" type="email" placeholder="Email goes here" value="{{ old('email') }}" required>
+                                <input class="input" name="email" type="email" placeholder="Email goes here" value="{{ old('email') }}" required maxlength="250">
                                 <span class="icon is-small is-left">
-                              <i class="fas fa-envelope"></i>
-                            </span>
+                                    <i class="fas fa-envelope"></i>
+                                </span>
                                 @error('email')
                                     <p class="has-text-danger has-text-weight-medium">{{ $message }}</p>
                                 @enderror
@@ -44,10 +44,10 @@
                         <div class="field">
                             <label class="label">Password (6 chars)</label>
                             <div class="control has-icons-left">
-                                <input class="input" name="password" pattern=".{6,}" type="password" placeholder="Do not tell anybody (except this form)" required>
+                                <input class="input" name="password" pattern=".{6,}" type="password" placeholder="Do not tell anybody (except this form)" required maxlength="250">
                                 <span class="icon is-small is-left">
-                              <i class="fas fa-key"></i>
-                            </span>
+                                    <i class="fas fa-key"></i>
+                                </span>
                                 @error('password')
                                     <p class="has-text-danger has-text-weight-medium">{{ $message }}</p>
                                 @enderror
@@ -56,10 +56,10 @@
                         <div class="field">
                             <label class="label">Confirm Password (also 6 chars)</label>
                             <div class="control has-icons-left">
-                                <input class="input" name="password_confirmation" pattern=".{6,}" type="password" placeholder="Type it once more" required>
+                                <input class="input" name="password_confirmation" pattern=".{6,}" type="password" placeholder="Type it once more" required maxlength="250">
                                 <span class="icon is-small is-left">
-                              <i class="fas fa-key"></i>
-                            </span>
+                                    <i class="fas fa-key"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="control">

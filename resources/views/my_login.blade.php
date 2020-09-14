@@ -20,7 +20,7 @@
                         <div class="field">
                             <label class="label">Email</label>
                             <div class="control has-icons-left">
-                                <input class="input" name="email" type="email" placeholder="Email goes here" required>
+                                <input class="input" name="email" type="email" placeholder="Email goes here" required maxlength="250">
                                 <span class="icon is-small is-left">
                               <i class="fas fa-envelope"></i>
                             </span>
@@ -32,7 +32,7 @@
                         <div class="field">
                             <label class="label">Password</label>
                             <div class="control has-icons-left">
-                                <input class="input" name="password" type="password" placeholder="Do not tell anybody (except this form)" required>
+                                <input class="input" name="password" type="password" placeholder="Do not tell anybody (except this form)" required maxlength="250">
                                 <span class="icon is-small is-left">
                               <i class="fas fa-key"></i>
                             </span>

@@ -114,7 +114,7 @@
                     <div class="field">
                         <label class="label">Name</label>
                         <div class="control has-icons-left">
-                            <input class="input" name="name" v-model="name" type="text" placeholder="To sign you pizza box" required>
+                            <input class="input" name="name" v-model="name" type="text" placeholder="To sign you pizza box" required maxlength="250">
                             <span class="icon is-small is-left">
                               <i class="fas fa-user"></i>
                             </span>
@@ -123,7 +123,7 @@
                     <div class="field">
                         <label class="label">Address</label>
                         <div class="control has-icons-left">
-                            <input class="input" name="address" v-model="address" placeholder="To tell pizza man where to go" required>
+                            <input class="input" name="address" v-model="address" placeholder="To tell pizza man where to go" required maxlength="250">
                             <span class="icon is-small is-left">
                               <i class="fas fa-map-marked-alt"></i>
                             </span>

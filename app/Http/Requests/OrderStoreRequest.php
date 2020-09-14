@@ -38,9 +38,9 @@ class OrderStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'address' => 'required|string',
-            'name' => 'required|string',
-            'phone' => 'required|string',
+            'address' => 'required|string|max:250',
+            'name' => 'required|string|max:250',
+            'phone' => 'required|string|max:250',
             'remember_delivery' => 'sometimes|accepted'
         ];
     }
