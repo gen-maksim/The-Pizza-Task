@@ -104,10 +104,14 @@
                             </figure>
                         </div>
                         <footer class="card-footer">
-                            <button @click="toCart(pizza.id)" class="button is-rounded is-success card-footer-item">
-                                Add to cart
-                            </button>
-                            <p v-text="'today for: ' + convertPrice(pizza.cost) + currency_sign" class="card-footer-item"></p>
+                            <div class="card-footer-item">
+                                <button @click="toCart(pizza.id)" class="button is-rounded is-success">
+                                    Add to cart
+                                </button>
+                            </div>
+                            <div class="card-footer-item">
+                                <p v-text="'today for: ' + convertPrice(pizza.cost) + currency_sign"></p>
+                            </div>
                         </footer>
                     </div>
                     </div>
