@@ -74,23 +74,6 @@ class OrderService
     }
 
     /**
-     * Retrieving cart from session
-     *
-     * @return array
-     */
-    public function getCart(): array
-    {
-        $cart = session()->get('cart');
-
-        if ($cart == null) {
-            $cart = [];
-            session()->put('cart', $cart);
-        }
-
-        return $cart;
-    }
-
-    /**
      * Collecting data for user previous orders
      *
      * @param $user

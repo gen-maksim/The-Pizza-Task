@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CurrencyRequest;
 use App\Http\Requests\OrderStoreRequest;
 use App\Models\Pizza;
+use App\Services\CartService;
 use App\Services\OrderService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -22,7 +23,7 @@ class OrderController extends Controller
      */
     public function store(OrderStoreRequest $request)
     {
-        $pizzas = (new OrderService())->getCart();
+        $pizzas = (new CartService())->getCart();
 
         if (count($pizzas) === 0) {
             return back()->withErrors(['pizza' => 'Wow, looks like you ordered only delivery. Please, add some pizza!']);
@@ -40,7 +41,7 @@ class OrderController extends Controller
     public function menu()
     {
         $pizzas = Pizza::all();
-        $cart = (new OrderService())->getCart();
+        $cart = (new CartService())->getCart();
         (new OrderService())->checkCurrency();
 
         return view('menu', ['pizzas' => $pizzas, 'cart' => $cart]);

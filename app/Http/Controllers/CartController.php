@@ -13,7 +13,7 @@ use Illuminate\View\View;
 class CartController extends Controller
 {
     /**
-     * Returning cart view with data
+     * Return cart view with data
      *
      * @return Application|Factory|View
      */
@@ -22,7 +22,7 @@ class CartController extends Controller
         $pizzas = Pizza::all();
         $service = new OrderService();
 
-        $cart = $service->getCart();
+        $cart = (new CartService())->getCart();
         $service->checkCurrency();
         $history = [];
         if (auth()->check()) {
@@ -33,7 +33,7 @@ class CartController extends Controller
     }
 
     /**
-     * Add one pizza to session cart
+     * Add one pizza to cart
      *
      * @param PizzaActionRequest $request
      */
@@ -43,7 +43,7 @@ class CartController extends Controller
     }
 
     /**
-     * delete one pizza from session cart
+     * Delete one pizza from cart
      *
      * @param PizzaActionRequest $request
      */
@@ -53,7 +53,7 @@ class CartController extends Controller
     }
 
     /**
-     * Delete all pizza of one type form session cart
+     * Delete all pizza of one type form cart
      *
      * @param PizzaActionRequest $request
      */
