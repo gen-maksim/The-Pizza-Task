@@ -8,10 +8,18 @@ use App\Models\Pizza;
 
 class OrderService
 {
-    public function makeOrder(array $attributes)
+    /**
+     * Fill order with data
+     *
+     * @param array $attributes
+     * @return Order
+     */
+    public function makeOrder(array $attributes): Order
     {
         $this->checkCurrency();
         $authed_user = auth()->user();
+
+        /** @var Order $new_order */
         $new_order = Order::create([
             'user_id' => $authed_user ? $authed_user->id : null,
             'currency_type' => session('currency_type') ?? 1,
@@ -41,23 +49,18 @@ class OrderService
 
         $new_order->save();
         session()->put('cart', []);
+
         return $new_order;
     }
 
-    public function getCart()
+    /**
+     * Retrieving currency type from session
+     *
+     * @return int
+     */
+    public function checkCurrency(): int
     {
-        $cart = session('cart');
-
-        if ($cart == null) {
-            $cart = [];
-            session()->put('cart', $cart);
-        }
-        return $cart;
-    }
-
-    public function checkCurrency()
-    {
-        $currency = session('currency_type');
+        $currency = session()->get('currency_type');
 
         if ($currency === null) {
             if (auth()->user()) {
@@ -71,6 +74,29 @@ class OrderService
         return $currency;
     }
 
+    /**
+     * Retrieving cart from session
+     *
+     * @return array
+     */
+    public function getCart(): array
+    {
+        $cart = session()->get('cart');
+
+        if ($cart == null) {
+            $cart = [];
+            session()->put('cart', $cart);
+        }
+
+        return $cart;
+    }
+
+    /**
+     * Collecting data for user previous orders
+     *
+     * @param $user
+     * @return array
+     */
     public function getUserHistory($user)
     {
         $orders = $user->orders()->get();
@@ -78,12 +104,12 @@ class OrderService
         foreach ($orders as $order) {
             $pizzas = [];
             foreach ($order->pizzas()->get() as $pizza) {
-                $pizzas []= [
+                $pizzas [] = [
                     'name' => $pizza->name,
                     'count' => $pizza->count
                 ];
             }
-            $history []= [
+            $history [] = [
                 'total_price' => $order->cost,
                 'currency_type' => $order->currency_type,
                 'pizzas' => $pizzas,

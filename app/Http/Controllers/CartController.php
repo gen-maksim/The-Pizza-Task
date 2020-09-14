@@ -2,26 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PizzaActionRequest;
 use App\Models\Pizza;
 use App\Services\OrderService;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 
 class CartController extends Controller
 {
+    /**
+     * Returning cart view with data
+     *
+     * @return Application|Factory|View
+     */
     public function cart()
     {
         $pizzas = Pizza::all();
-        $cart = (new OrderService())->getCart();
-        (new OrderService())->checkCurrency();
+        $service = new OrderService();
+
+        $cart = $service->getCart();
+        $service->checkCurrency();
         $history = [];
         if (auth()->check()) {
-            $history = (new OrderService())->getUserHistory(auth()->user());
+            $history = $service->getUserHistory(auth()->user());
         }
 
         return view('cart', ['pizzas' => $pizzas, 'cart' => $cart, 'history' => $history]);
     }
 
-    public function addPizza(Request $request)
+    /**
+     * Add one pizza to session cart
+     *
+     * @param PizzaActionRequest $request
+     */
+    public function addPizza(PizzaActionRequest $request)
     {
         $cart = (new OrderService())->getCart();
         $cart_index = array_search($request->pizza_id, array_column($cart, 'pizza_id'));
@@ -38,7 +53,12 @@ class CartController extends Controller
         session()->put('cart', array_values($cart));
     }
 
-    public function deletePizza(Request $request)
+    /**
+     * delete one pizza from session cart
+     *
+     * @param PizzaActionRequest $request
+     */
+    public function deletePizza(PizzaActionRequest $request)
     {
         $cart = (new OrderService())->getCart();
         $cart_index = array_search($request->pizza_id, array_column($cart, 'pizza_id'));
@@ -54,7 +74,12 @@ class CartController extends Controller
         session()->put('cart', array_values($cart));
     }
 
-    public function removePizza(Request $request)
+    /**
+     * Delete all pizza of one type form session cart
+     *
+     * @param PizzaActionRequest $request
+     */
+    public function removePizza(PizzaActionRequest $request)
     {
         $cart = (new OrderService())->getCart();
         $cart_index = array_search($request->pizza_id, array_column($cart, 'pizza_id'));

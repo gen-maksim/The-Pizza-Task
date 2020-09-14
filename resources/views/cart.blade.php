@@ -175,7 +175,7 @@
                 <hr>
                 <article v-for="order in history" class="media">
                     <div class="media-left">
-                        <p><i>@{{ order.created_at }}</i>: Total price: @{{ order.total_price }} @{{ order.currency_type === 1 ? '$' : '€' }}</p>
+                        <p><i>@{{ order.created_at }}</i>:<br> Total price: @{{ order.total_price }} @{{ order.currency_type === 1 ? '$' : '€' }}</p>
                     </div>
                     <div class="media-content content">
                         <ul>
