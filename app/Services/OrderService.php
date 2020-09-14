@@ -79,7 +79,7 @@ class OrderService
      * @param $user
      * @return array
      */
-    public function getUserHistory($user)
+    public function getUserHistory($user): array
     {
         $orders = $user->orders()->get();
         $history = [];

@@ -52,7 +52,7 @@ class OrderController extends Controller
      *
      * @param CurrencyRequest $request
      */
-    public function setCurrency(CurrencyRequest $request)
+    public function setCurrency(CurrencyRequest $request): void
     {
         $authed_user = auth()->user();
         if ($authed_user) {
