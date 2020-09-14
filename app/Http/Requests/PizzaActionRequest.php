@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property int pizza_id
+ */
 class PizzaActionRequest extends FormRequest
 {
     /**
@@ -24,7 +27,7 @@ class PizzaActionRequest extends FormRequest
     public function rules()
     {
         return [
-            'pizza_id' => 'required|exists:pizzas,id'
+            'pizza_id' => 'required|integer|exists:pizzas,id'
         ];
     }
 }

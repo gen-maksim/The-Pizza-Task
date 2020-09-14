@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PizzaActionRequest;
 use App\Models\Pizza;
+use App\Services\CartService;
 use App\Services\OrderService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -38,19 +39,7 @@ class CartController extends Controller
      */
     public function addPizza(PizzaActionRequest $request)
     {
-        $cart = (new OrderService())->getCart();
-        $cart_index = array_search($request->pizza_id, array_column($cart, 'pizza_id'));
-
-        if ($cart_index === false) {
-            array_push($cart, [
-                'pizza_id' => $request->pizza_id,
-                'count' => 1,
-            ]);
-        } else {
-            $cart[$cart_index]['count']++;
-        }
-
-        session()->put('cart', array_values($cart));
+        (new CartService())->addPizza($request->pizza_id);
     }
 
     /**
@@ -60,18 +49,7 @@ class CartController extends Controller
      */
     public function deletePizza(PizzaActionRequest $request)
     {
-        $cart = (new OrderService())->getCart();
-        $cart_index = array_search($request->pizza_id, array_column($cart, 'pizza_id'));
-
-        if ($cart_index !== false) {
-            if ($cart[$cart_index]['count'] > 0) {
-                $cart[$cart_index]['count']--;
-            } else {
-                unset($cart[$cart_index]);
-            }
-        }
-
-        session()->put('cart', array_values($cart));
+        (new CartService())->deletePizza($request->pizza_id);
     }
 
     /**
@@ -81,13 +59,6 @@ class CartController extends Controller
      */
     public function removePizza(PizzaActionRequest $request)
     {
-        $cart = (new OrderService())->getCart();
-        $cart_index = array_search($request->pizza_id, array_column($cart, 'pizza_id'));
-
-        if ($cart_index !== false) {
-            unset($cart[$cart_index]);
-        }
-
-        session()->put('cart', array_values($cart));
+        (new CartService())->removePizza($request->pizza_id);
     }
 }
