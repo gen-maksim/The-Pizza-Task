@@ -64,7 +64,6 @@ class OrderTest extends TestCase
         $this->assertEquals($total_cost, $created_order->cost);
     }
 
-
     /** @test */
     public function user_can_make_an_order_and_remember_delivery()
     {
