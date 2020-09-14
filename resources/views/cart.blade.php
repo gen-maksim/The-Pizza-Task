@@ -9,16 +9,10 @@
     <!-- Fonts -->
     <script src="https://kit.fontawesome.com/92abca6220.js" crossorigin="anonymous"></script>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <style>
-        .footer {
-            padding: 1rem;
-        }
-    </style>
 </head>
 <body>
 <section>
-    <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #f4faf7">
-
+    <nav class="navbar sticky-nav" role="navigation" aria-label="main navigation">
         <div id="currency" class="navbar-menu is-active">
             <div class="navbar-start">
                 <div class="navbar-item">

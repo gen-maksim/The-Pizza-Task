@@ -9,20 +9,10 @@
     <!-- Fonts -->
     <script src="https://kit.fontawesome.com/92abca6220.js" crossorigin="anonymous"></script>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <style>
-        .pizza_back {
-            background-image: url('pics/pizza_back.jpg');
-            background-size: contain;
-        }
-
-        .footer {
-            padding: 1rem;
-        }
-    </style>
 </head>
 <body>
 <section id="main">
-    <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #f4faf7">
+    <nav class="navbar sticky-nav" role="navigation" aria-label="main navigation">
         <div id="navbarBasic" class="navbar-menu is-active">
             <div class="navbar-start">
                 <div class="navbar-item">
@@ -71,7 +61,7 @@
             </div>
         </div>
     </nav>
-    <section class="hero pizza_back">
+    <section class="hero pizza_back" style="background-image: url('pics/pizza_back.jpg')">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title" style="color: #e3f1fa">

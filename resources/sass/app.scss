@@ -3,3 +3,17 @@
 
 // Bootstrap
 @import '~bulma/bulma.sass';
+
+.pizza_back {
+    background-size: contain;
+}
+
+.footer {
+    padding: 1rem;
+}
+
+.sticky-nav {
+    position: sticky;
+    top: 0;
+    background-color: #f4faf7;
+}
