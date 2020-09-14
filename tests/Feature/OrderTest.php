@@ -57,7 +57,7 @@ class OrderTest extends TestCase
         ]);
 
         $created_order = Order::orderByDesc('id')->first();
-        $total_cost = $pizzas[0]->cost * 2 + $pizzas[1]->cost;
+        $total_cost = $pizzas[0]->cost * 2 + $pizzas[1]->cost + 10;
 
         $response->assertRedirect(route('menu'));
         $this->assertEquals(2, $created_order->pizzas()->count());
