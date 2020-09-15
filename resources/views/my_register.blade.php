@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label">Password (6 chars)</label>
+                            <label class="label">Password (min 6 chars)</label>
                             <div class="control has-icons-left">
                                 <input class="input" name="password" pattern=".{6,}" type="password" placeholder="Do not tell anybody (except this form)" required maxlength="250">
                                 <span class="icon is-small is-left">
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label">Confirm Password (also 6 chars)</label>
+                            <label class="label">Confirm Password (repeat it, please)</label>
                             <div class="control has-icons-left">
                                 <input class="input" name="password_confirmation" pattern=".{6,}" type="password" placeholder="Type it once more" required maxlength="250">
                                 <span class="icon is-small is-left">
