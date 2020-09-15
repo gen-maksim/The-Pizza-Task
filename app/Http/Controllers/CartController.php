@@ -37,7 +37,7 @@ class CartController extends Controller
      *
      * @param PizzaActionRequest $request
      */
-    public function addPizza(PizzaActionRequest $request)
+    public function addPizza(PizzaActionRequest $request): void
     {
         (new CartService())->addPizza($request->pizza_id);
     }
@@ -47,7 +47,7 @@ class CartController extends Controller
      *
      * @param PizzaActionRequest $request
      */
-    public function deletePizza(PizzaActionRequest $request)
+    public function deletePizza(PizzaActionRequest $request): void
     {
         (new CartService())->deletePizza($request->pizza_id);
     }
@@ -57,7 +57,7 @@ class CartController extends Controller
      *
      * @param PizzaActionRequest $request
      */
-    public function removePizza(PizzaActionRequest $request)
+    public function removePizza(PizzaActionRequest $request): void
     {
         (new CartService())->removePizza($request->pizza_id);
     }
